@@ -11,20 +11,20 @@ class MusicPlayer:
         self.playlist = Listbox(self.master, selectmode='SINGLE')         
         self.playlist.pack(pady=10)
 
-        self.load_button = Button(self.master, text="Load Songs", command=self.load_songs)          
+        self.load_button = Button(self.master, text="Load Songs", command=self.load_songs)          #Load Button
         self.load_button.pack(pady=5)
 
-        self.play_button = Button(self.master, text="Play", command=self.play_music)
+        self.play_button = Button(self.master, text="Play", command=self.play_music)                     #Play Button
         self.play_button.pack(pady=5)
 
-        self.stop_button = Button(self.master, text="Stop", command=self.stop_music)
+        self.stop_button = Button(self.master, text="Stop", command=self.stop_music)                   #Stop Button
         self.stop_button.pack(pady=5)
 
-        self.pause_button = Button(self.master, text="Pause", command=self.pause_music)
+        self.pause_button = Button(self.master, text="Pause", command=self.pause_music)               #Pause Button
         self.pause_button.pack(pady=5)
 
-        self.volume_scale = Scale(self.master, from_=0, to=100, orient='horizontal', command=self.set_volume)
-        self.volume_scale.set(50)  # Set default volume to 50
+        self.volume_scale = Scale(self.master, from_=0, to=100, orient='horizontal', command=self.set_volume)                       #Adds Volume Scale
+        self.volume_scale.set(50)                                                  #Default Volume to 50.
         self.volume_scale.pack(pady=5)
 
         self.file_paths = []  
