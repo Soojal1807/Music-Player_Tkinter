@@ -1,39 +1,46 @@
+#Simple Music Player By Soojal.
+
 import os
 import pygame
-from tkinter import Tk, Listbox, Button, filedialog, Scale, StringVar, MULTIPLE, END, SINGLE, ACTIVE
-import threading
+from tkinter import Tk, Listbox, Button, filedialog, Scale, StringVar, MULTIPLE, END, ttk, TclError
 
 class MusicPlayer:
     def __init__(self, master):
         self.master = master
-        self.master.title("Simple Music Player")
-        self.master.geometry("400x400")
+        self.master.title("Music Player")
+        self.master.geometry("450x450")
+
+        self.dark_theme = True  
+        self.set_theme()
 
         self.playlist = Listbox(
             self.master,
             selectmode=MULTIPLE,
             bd=5,
             relief="solid",
-            bg="black",
-            fg="green"
+            bg=self.bg_color,
+            fg=self.fg_color
         )
         self.playlist.pack(pady=10)
 
-        self.load_button = Button(self.master, text="Load Songs", command=self.load_songs)
+        self.load_button = Button(self.master, text="Load Songs", command=self.load_songs, bg="grey", fg="white")
         self.load_button.pack(pady=5)
 
-        self.play_button = Button(self.master, text="Play", command=self.play_music)
+        self.play_button = Button(self.master, text="Play", command=self.play_music, bg="grey", fg="white")
         self.play_button.pack(pady=5)
 
-        self.stop_button = Button(self.master, text="Stop", command=self.stop_music)
+        self.stop_button = Button(self.master, text="Stop", command=self.stop_music, bg="grey", fg="white")
         self.stop_button.pack(pady=5)
 
-        self.pause_button = Button(self.master, text="Pause", command=self.pause_music)
+        self.pause_button = Button(self.master, text="Pause", command=self.pause_music, bg="grey", fg="white")
         self.pause_button.pack(pady=5)
 
         self.volume_scale = Scale(self.master, from_=0, to=100, orient='horizontal', command=self.set_volume)
         self.volume_scale.set(50)
         self.volume_scale.pack(pady=5)
+
+        self.theme_button = Button(self.master, text="Toggle Theme", command=self.toggle_theme, bg="grey", fg="white")
+        self.theme_button.pack(pady=5)
 
         self.file_paths = []
         self.selected_files = StringVar()
@@ -41,6 +48,26 @@ class MusicPlayer:
 
         pygame.mixer.init()
         pygame.mixer.music.set_endevent(pygame.USEREVENT)
+
+    def set_theme(self):
+        if self.dark_theme:
+            self.bg_color = "black"
+            self.fg_color = "green"
+        else:
+            self.bg_color = "white"
+            self.fg_color = "black"
+
+        self.master.config(bg=self.bg_color)
+
+        for widget in self.master.winfo_children():
+            try:
+                widget.config(bg=self.bg_color, fg=self.fg_color)
+            except TclError:
+                pass
+
+    def toggle_theme(self):
+        self.dark_theme = not self.dark_theme
+        self.set_theme()
 
     def load_songs(self):
         file_paths = filedialog.askopenfilenames(filetypes=[("MP3 Files", "*.mp3")])
